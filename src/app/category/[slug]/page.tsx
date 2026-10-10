@@ -19,7 +19,14 @@ export async function generateStaticParams() {
   return categories.map((category) => ({ slug: category.slug }))
 }
 
-async function CategoryBody({ slug }: { slug: string }) {
+/**
+ * `params` is a promise, and awaiting it in the page body blocks the instant shell
+ * ("Next.js encountered URL data outside of <Suspense>"). Passing the promise down and
+ * resolving it inside the Suspense boundary keeps the navigation instant while the
+ * skeleton streams.
+ */
+async function CategoryBody({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const category = await getCategory(slug)
 
   if (!category) {
@@ -63,13 +70,11 @@ async function CategoryBody({ slug }: { slug: string }) {
   )
 }
 
-export default async function CategoryPage(props: PageProps<'/category/[slug]'>) {
-  const { slug } = await props.params
-
+export default function CategoryPage(props: PageProps<'/category/[slug]'>) {
   return (
     <main className="flex-1">
       <Suspense fallback={<CategorySkeleton />}>
-        <CategoryBody slug={slug} />
+        <CategoryBody params={props.params} />
       </Suspense>
     </main>
   )
