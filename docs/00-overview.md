@@ -129,10 +129,14 @@ Verified against `node_modules/next/dist/docs/` in this repo — **not** from me
 7. `revalidateTag` now needs a second argument.
 8. **Reading cookies is uncached data.** Any page calling `getSession()`/`requireSession()` must do
    so inside a `<Suspense>` boundary, for the same reason as (1). Affects profile and update.
-9. `new Date()` is synchronous IO and also fails the build — wrap it in `'use cache'` (see `date-bn.ts`).
-10. Better Auth cannot infer a driver from a raw `@libsql/client`; pass an explicit Kysely
+9. **Better Auth compares the session expiry with `new Date()`**, which Next flags as an unstable
+   value during prerendering (`blocking-prerender-current-time`). `requireSession()` starts with
+   `await connection()` to stop the prerender — correct anyway, since a protected route's output
+   depends entirely on the request.
+10. `new Date()` is synchronous IO and also fails the build — wrap it in `'use cache'` (see `date-bn.ts`).
+11. Better Auth cannot infer a driver from a raw `@libsql/client`; pass an explicit Kysely
     `LibsqlDialect`, or it throws *"Failed to initialize database adapter"*.
-11. The Better Auth CLI cannot load a TypeScript config file here — apply `schema.sql` with
+12. The Better Auth CLI cannot load a TypeScript config file here — apply `schema.sql` with
     `scripts/migrate.mjs` instead.
 
 ---

@@ -154,6 +154,24 @@ Only `matcher` is allowed; setting `runtime` throws in Next 16.
 **Layer 2 — the server check in the page.** Non-negotiable: a proxy matcher can be bypassed by a
 request that skips it, so `/product/[slug]/page.tsx` and `/profile/**` also call `requireSession()`.
 
+`requireSession()` begins with `await connection()` from `next/server`:
+
+```ts
+export async function requireSession(redirectTo: string): Promise<Session> {
+  // Stops the prerender — Better Auth compares session expiry with new Date(), which
+  // Next reports as an unstable value (blocking-prerender-current-time) otherwise.
+  await connection()
+
+  const session = await getSession()
+  if (!session) redirect(`/signin?redirect=${encodeURIComponent(redirectTo)}`)
+  return session
+}
+```
+
+This is correct regardless of the error: a protected route's output depends entirely on the
+request, so it should never have been prerendered. The three protected routes therefore render at
+request time rather than as partial prerenders.
+
 **Toast on redirect:** `/signin` reads `?redirect=` and, when present, fires
 `toast('সাইন ইন করলে আপনি ফিরে যেতে পারবেন')` once on mount (guarded by a ref so React 19
 double-invoked effects don't double-toast).

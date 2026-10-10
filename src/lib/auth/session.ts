@@ -1,5 +1,6 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { connection } from 'next/server'
 import { cache } from 'react'
 import { auth } from './auth'
 
@@ -20,6 +21,11 @@ export const getSession = cache(async (): Promise<Session | null> => {
  * the matcher would slip past it — so every protected page calls this too.
  */
 export async function requireSession(redirectTo: string): Promise<Session> {
+  // A protected route's output depends entirely on the request, so prerendering it is
+  // meaningless anyway. Without this, Better Auth's expiry comparison (an internal
+  // `new Date()`) is flagged during prerendering as an unstable value.
+  await connection()
+
   const session = await getSession()
 
   if (!session) {
