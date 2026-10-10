@@ -78,7 +78,7 @@ Manual smoke list (dev):
 
 1. Push to GitHub; import in Vercel (framework auto-detects Next.js).
 2. Add all env vars from `05-auth-plan.md` §10 — **`DATABASE_URL` must be the `libsql://` pooler URL**.
-3. Run `npx @better-auth/cli@latest migrate` against the production DB.
+3. Run `node scripts/migrate.mjs` against the production DB.
 4. Deploy, then re-run the whole §3 smoke list against the live URL.
 5. Fill in the submission form: **Live Link** + **GitHub Repository Link**.
 

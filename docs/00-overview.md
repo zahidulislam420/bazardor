@@ -115,6 +115,9 @@ Verified against `node_modules/next/dist/docs/` in this repo — **not** from me
 
 1. `params` and `searchParams` are **`Promise`**; sync access is fully removed.
    Use the generated helpers: `export default async function Page(props: PageProps<'/product/[slug]'>)`.
+   **Never await them in the page body** — pass the promise into a `<Suspense>` child instead, or the
+   route reports *"Next.js encountered URL data outside of `<Suspense>`"* and the build fails.
+   This bit four routes: category, product, signin and (via `searchParams`) the redirect toast.
 2. `dynamicParams` **fails the build** under `cacheComponents` → rely on `generateStaticParams` +
    `notFound()`. An empty `generateStaticParams` return is also a build error.
 3. PPR is always on. Skeletons come from `<Suspense fallback>` placed near the data access,
@@ -124,6 +127,13 @@ Verified against `node_modules/next/dist/docs/` in this repo — **not** from me
 5. `useSearchParams()` must sit inside a `<Suspense>` boundary — dev silently passes, production build fails.
 6. `next lint` is removed. Lint with `eslint .`.
 7. `revalidateTag` now needs a second argument.
+8. **Reading cookies is uncached data.** Any page calling `getSession()`/`requireSession()` must do
+   so inside a `<Suspense>` boundary, for the same reason as (1). Affects profile and update.
+9. `new Date()` is synchronous IO and also fails the build — wrap it in `'use cache'` (see `date-bn.ts`).
+10. Better Auth cannot infer a driver from a raw `@libsql/client`; pass an explicit Kysely
+    `LibsqlDialect`, or it throws *"Failed to initialize database adapter"*.
+11. The Better Auth CLI cannot load a TypeScript config file here — apply `schema.sql` with
+    `scripts/migrate.mjs` instead.
 
 ---
 

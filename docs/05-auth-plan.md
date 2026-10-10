@@ -13,12 +13,12 @@ client can open a local file when no env var is set (offline dev).
 ## 2. Install
 
 ```bash
-npm i better-auth @libsql/client
-npx @better-auth/cli@latest generate   # writes the schema / migration
-npx @better-auth/cli@latest migrate    # applies it to the configured DB
+npm i better-auth @libsql/client kysely-libsql
+node scripts/migrate.mjs          # applies src/lib/auth/schema.sql
 ```
 
-The CLI needs `DATABASE_URL` (+ `DATABASE_AUTH_TOKEN`) in `.env.local` to migrate.
+The schema is checked in rather than generated at install time, because the Better Auth CLI
+cannot load this TypeScript config (see §3).
 
 ---
 
@@ -26,15 +26,33 @@ The CLI needs `DATABASE_URL` (+ `DATABASE_AUTH_TOKEN`) in `.env.local` to migrat
 
 ```ts
 import { createClient } from '@libsql/client'
+import { LibsqlDialect } from 'kysely-libsql'
 
 const url = process.env.DATABASE_URL ?? 'file:./local.db'
 const authToken = process.env.DATABASE_AUTH_TOKEN
 
-export const db = createClient(
-  authToken ? { url, authToken } : { url }
-)
+export const db = createClient(authToken ? { url, authToken } : { url })
+export const dialect = new LibsqlDialect({ client: db })
 ```
+
 `file:./local.db` is the dev fallback only; on Vercel the env vars are always present.
+
+**Better Auth does not auto-detect `@libsql/client`.** Its Kysely adapter recognises a driver only
+by shape — better-sqlite3 (`.aggregate`), pg (`.connect`), mysql2 (`.getConnection`), Bun
+(`.fileControl`), node:sqlite (`.createSession`), D1 (`.batch` + `.exec` + `.prepare`). A libSQL
+client matches none of them and throws `Failed to initialize database adapter`, so an explicit
+dialect is required:
+
+```ts
+database: { dialect, type: 'sqlite' }
+```
+
+The option is `client`, **not** `db`, on `LibsqlDialect` — passing `db` gives
+*"Please specify either `client` or `url` in the LibsqlDialect config"*.
+
+**The Better Auth CLI cannot load this TypeScript config** (`Failed to initialize database
+adapter`). The schema lives in `schema.sql`, generated from `getAuthTables()`, and is applied by
+`node scripts/migrate.mjs` — idempotent, so it is safe to re-run.
 
 ---
 
@@ -203,7 +221,7 @@ const { data, error } = await authClient.updateUser({ name: values.name })
 
 ## 11. Deployment notes
 
-- `npx @better-auth/cli@latest migrate` must run against the **production** Turso database before
+- `node scripts/migrate.mjs` must run against the **production** Turso database before
   (or right after) the first deploy, otherwise sign-up hits a missing-table error.
 - Better Auth sets `Secure` cookies in production; never disable that.
 - The `/api/auth/[...all]` handler is a Node route handler — do not add `export const runtime = 'edge'`.
