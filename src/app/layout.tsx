@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { Hind_Siliguri } from 'next/font/google'
 import { SiteHeader } from '@/components/layout/site-header'
 import { Footer } from '@/components/layout/footer'
+import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 
 const bangla = Hind_Siliguri({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         </Suspense>
         {children}
         <Footer />
+        <Toaster />
       </body>
     </html>
   )
