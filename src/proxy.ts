@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { safeRedirect } from '@/lib/auth/safe-redirect'
 
 /**
  * Better Auth prefixes the cookie with `__Secure-` whenever it is served over https, which
@@ -21,14 +22,22 @@ const AUTH_PAGES = ['/signin', '/signup']
  * Only `matcher` may be configured — Next 16 rejects a `runtime` key in a proxy file.
  */
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
+  const hasSession = SESSION_COOKIES.some((name) => Boolean(request.cookies.get(name)?.value))
 
+  // A signed-in visitor has no business on /signin or /signup — send them where they were
+  // originally headed, or home. Without this the auth pages stay reachable after login and
+  // a second sign-in is possible. Redirecting here rather than in the page means the bounce
+  // happens before anything renders.
   if (AUTH_PAGES.some((page) => pathname.startsWith(page))) {
+    if (hasSession) {
+      const url = new URL(safeRedirect(searchParams.get('redirect')), request.url)
+      return NextResponse.redirect(url)
+    }
     return NextResponse.next()
   }
 
-const isProtected = PROTECTED.some((prefix) => pathname.startsWith(prefix))
-const hasSession = SESSION_COOKIES.some((name) => Boolean(request.cookies.get(name)?.value))
+  const isProtected = PROTECTED.some((prefix) => pathname.startsWith(prefix))
 
   if (isProtected && !hasSession) {
     const url = new URL('/signin', request.url)
@@ -40,5 +49,5 @@ const hasSession = SESSION_COOKIES.some((name) => Boolean(request.cookies.get(na
 }
 
 export const config = {
-  matcher: ['/product/:path*', '/profile/:path*', '/update/:path*'],
+  matcher: ['/product/:path*', '/profile/:path*', '/update/:path*', '/signin', '/signup'],
 }

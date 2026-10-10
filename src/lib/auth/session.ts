@@ -38,10 +38,8 @@ export async function requireSession(redirectTo: string): Promise<Session> {
 /**
  * Only same-origin paths are accepted as a post-login destination.
  * `//evil.com` and `https://evil.com` are rejected, which blocks an open redirect.
+ *
+ * Re-exported for the existing callers; the implementation lives in safe-redirect.ts so
+ * proxy.ts can share it without dragging the database into the edge bundle.
  */
-export function safeRedirect(value: string | null | undefined, fallback = '/'): string {
-  if (!value) return fallback
-  if (!value.startsWith('/')) return fallback
-  if (value.startsWith('//')) return fallback
-  return value
-}
+export { safeRedirect } from './safe-redirect'
