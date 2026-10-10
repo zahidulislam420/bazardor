@@ -10,15 +10,15 @@ type Provider = 'google' | 'github'
  * the OAuth round-trip cannot succeed, so the failure surfaces as an explicit Bangla
  * toast instead of a silent no-op. Adding the keys needs no change here.
  */
-export function SocialButtons() {
+export function SocialButtons({ redirectTo = '/' }: { redirectTo?: string }) {
   async function handleClick(provider: Provider) {
     const name = provider === 'google' ? 'গুগল' : 'গিটহাব'
 
     try {
       await authClient.signIn.social({
         provider,
-        callbackURL: '/',
-        errorCallbackURL: '/signin',
+        callbackURL: redirectTo,
+        errorCallbackURL: `/signin?redirect=${encodeURIComponent(redirectTo)}`,
       })
     } catch {
       toast.error(`${name} লগইন এখনো কনফিগার করা হয়নি। ইমেইল দিয়ে লগইন করুন।`)

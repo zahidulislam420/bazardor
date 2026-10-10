@@ -116,15 +116,21 @@ export function AuthForm({
         const { error } = await authClient.signUp.email({ name, email, password })
         if (error) throw new Error(error.message ?? 'অ্যাকাউন্ট তৈরি হয়নি')
         toast.success('অ্যাকাউন্ট তৈরি হয়েছে। এখন সাইন ইন করুন।')
-        router.push('/signin')
+        router.push(
+          redirectTo === '/'
+            ? '/signin'
+            : `/signin?redirect=${encodeURIComponent(redirectTo)}`
+        )
         return
       }
 
       const { error } = await authClient.signIn.email({ email, password })
       if (error) throw new Error(error.message ?? 'লগইন হয়নি')
       toast.success('সফলভাবে লগইন হয়েছে')
-      router.push(redirectTo)
+      // refresh() before push(), never after: a refresh issued during an in-flight
+      // navigation cancels it, which silently strands the visitor on /signin.
       router.refresh()
+      router.push(redirectTo)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'কিছু একটা সমস্যা হয়েছে'
       // The server reports which field is wrong; only "email" and "password" are form inputs.
@@ -201,7 +207,7 @@ export function AuthForm({
         <span className="h-px flex-1 bg-base-300" />
       </div>
 
-      <SocialButtons />
+      <SocialButtons redirectTo={redirectTo} />
 
       <p className="text-center text-sm text-base-content/70">
         {copy.footerLead}{' '}
