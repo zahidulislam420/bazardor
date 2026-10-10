@@ -1,6 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
-const SESSION_COOKIE = 'better-auth.session_token'
+/**
+ * Better Auth prefixes the cookie with `__Secure-` whenever it is served over https, which
+ * in practice means every production request. Checking only the bare name makes the guard
+ * read a signed-in visitor as logged out and bounce them back to /signin forever — the
+ * page behind the guard never loads, so it looks like sign-in itself failed.
+ */
+const SESSION_COOKIES = ['__Secure-better-auth.session_token', 'better-auth.session_token']
 
 const PROTECTED = ['/product', '/profile', '/update']
 const AUTH_PAGES = ['/signin', '/signup']
@@ -21,8 +27,8 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const isProtected = PROTECTED.some((prefix) => pathname.startsWith(prefix))
-  const hasSession = Boolean(request.cookies.get(SESSION_COOKIE)?.value)
+const isProtected = PROTECTED.some((prefix) => pathname.startsWith(prefix))
+const hasSession = SESSION_COOKIES.some((name) => Boolean(request.cookies.get(name)?.value))
 
   if (isProtected && !hasSession) {
     const url = new URL('/signin', request.url)

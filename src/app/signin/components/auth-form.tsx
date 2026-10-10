@@ -116,7 +116,7 @@ export function AuthForm({
         const { error } = await authClient.signUp.email({ name, email, password })
         if (error) throw new Error(error.message ?? 'অ্যাকাউন্ট তৈরি হয়নি')
         toast.success('অ্যাকাউন্ট তৈরি হয়েছে। এখন সাইন ইন করুন।')
-        router.push(
+        router.replace(
           redirectTo === '/'
             ? '/signin'
             : `/signin?redirect=${encodeURIComponent(redirectTo)}`
@@ -127,10 +127,12 @@ export function AuthForm({
       const { error } = await authClient.signIn.email({ email, password })
       if (error) throw new Error(error.message ?? 'লগইন হয়নি')
       toast.success('সফলভাবে লগইন হয়েছে')
-      // refresh() before push(), never after: a refresh issued during an in-flight
-      // navigation cancels it, which silently strands the visitor on /signin.
-      router.refresh()
-      router.push(redirectTo)
+      // Full page load, not router.push(). The session cookie is set by this fetch and
+      // the target is a partially-prerendered protected route, so a client-side push can
+      // serve an RSC payload cached from before sign-in and re-bounce to /signin. A hard
+      // navigation re-runs proxy.ts with the cookie present. Social sign-in already
+      // behaves this way, which is why only the email path was broken.
+      window.location.assign(redirectTo)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'কিছু একটা সমস্যা হয়েছে'
       // The server reports which field is wrong; only "email" and "password" are form inputs.
