@@ -1,11 +1,17 @@
 import Image from 'next/image'
 import { Container, Content } from '@/components/ui/container'
+import { todayBn } from '@/lib/utils/date-bn'
 
 /**
  * Hero copy is taken verbatim from the design file.
  * The CTA is an anchor, not a route — it scrolls to the #সব-পণ্য section on the same page.
+ *
+ * `todayBn` is cached with no arguments, so this returns the exact string the navbar
+ * already rendered — the two can never disagree.
  */
-export function Hero({ date }: { date: string }) {
+export async function Hero() {
+  const date = await todayBn()
+
   return (
     <Container>
       <Content>

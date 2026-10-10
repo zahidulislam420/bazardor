@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Hind_Siliguri } from 'next/font/google'
+import { SiteHeader } from '@/components/layout/site-header'
+import { Footer } from '@/components/layout/footer'
 import './globals.css'
 
 const bangla = Hind_Siliguri({
@@ -18,7 +21,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="bn" className={`${bangla.variable} h-full`}>
-      <body className="flex min-h-full flex-col antialiased">{children}</body>
+      <body className="flex min-h-full flex-col antialiased">
+        <Suspense fallback={null}>
+          <SiteHeader />
+        </Suspense>
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
