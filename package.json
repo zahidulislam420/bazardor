@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
+    "better-auth": "^1.7.7",
+    "kysely-libsql": "^0.7.1",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
