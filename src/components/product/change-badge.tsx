@@ -1,0 +1,39 @@
+import type { ChangeDir } from '@/lib/types'
+import { changeGlyph, formatChangePct } from '@/lib/utils/change'
+
+const TONE: Record<ChangeDir, string> = {
+  up: 'text-success',
+  down: 'text-error',
+  flat: 'text-base-content',
+}
+
+const SCREEN_READER: Record<ChangeDir, string> = {
+  up: 'দাম বেড়েছে',
+  down: 'দাম কমেছে',
+  flat: 'দাম অপরিবর্তিত',
+}
+
+/**
+ * 24px pill, no background fill — the design colours the glyph and the percentage,
+ * never the badge itself. Glyph and percentage are separate nodes so screen readers
+ * get a word instead of a bare triangle.
+ */
+export function ChangeBadge({
+  dir,
+  pct,
+  className = '',
+}: {
+  dir: ChangeDir
+  pct: number
+  className?: string
+}) {
+  return (
+    <span
+      aria-label={`${SCREEN_READER[dir]} ${formatChangePct(pct)}`}
+      className={`inline-flex items-center gap-1 rounded-xl px-2 py-1 text-xs font-semibold ${TONE[dir]} ${className}`}
+    >
+      <span aria-hidden="true">{changeGlyph(dir)}</span>
+      <span aria-hidden="true">{formatChangePct(pct)}</span>
+    </span>
+  )
+}
