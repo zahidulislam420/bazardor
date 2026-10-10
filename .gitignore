@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local dev database
+local.db
+local.db-journal
+
+# design source files (5MB of binary; parsed into public/images + public/icons)
+public/*.fig
+public/*.penpot

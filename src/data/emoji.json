@@ -1,0 +1,273 @@
+{
+  "$comment": "Emoji map for BazarDor. Product + category emoji are sourced from the live API (products[].image, categories[].icon) and snapshotted for offline fallback and for UI chrome the API does not provide.",
+  "$source": "https://api.api-store.workers.dev/api/bazardor",
+  "categories": {
+    "chal": {
+      "nameBn": "চাল",
+      "icon": "🍚"
+    },
+    "dal": {
+      "nameBn": "ডাল",
+      "icon": "🫘"
+    },
+    "tel": {
+      "nameBn": "তেল",
+      "icon": "🛢️"
+    },
+    "sobji": {
+      "nameBn": "সবজি",
+      "icon": "🥬"
+    },
+    "mach": {
+      "nameBn": "মাছ",
+      "icon": "🐟"
+    },
+    "mangsho": {
+      "nameBn": "মাংস",
+      "icon": "🍗"
+    },
+    "dim-dui": {
+      "nameBn": "ডিম-দুধ",
+      "icon": "🥛"
+    },
+    "mosla": {
+      "nameBn": "মসলা",
+      "icon": "🌶️"
+    }
+  },
+  "products": {
+    "sorno-machi-chal": {
+      "nameBn": "স্বর্ণমাছি চাল",
+      "category": "chal",
+      "unit": "kg",
+      "image": "🍚"
+    },
+    "miniket-chal": {
+      "nameBn": "মিনিকেট চাল",
+      "category": "chal",
+      "unit": "kg",
+      "image": "🍚"
+    },
+    "nazir-chal": {
+      "nameBn": "নাজির চাল",
+      "category": "chal",
+      "unit": "kg",
+      "image": "🍚"
+    },
+    "batam-size-chal": {
+      "nameBn": "বাটাম সাইজ চাল",
+      "category": "chal",
+      "unit": "kg",
+      "image": "🍚"
+    },
+    "mosur-dal": {
+      "nameBn": "মসুর ডাল",
+      "category": "dal",
+      "unit": "kg",
+      "image": "🫘"
+    },
+    "mug-dal": {
+      "nameBn": "মুগ ডাল",
+      "category": "dal",
+      "unit": "kg",
+      "image": "🫘"
+    },
+    "chola-dal": {
+      "nameBn": "ছোলা",
+      "category": "dal",
+      "unit": "kg",
+      "image": "🫘"
+    },
+    "aman-dal-khosasila": {
+      "nameBn": "আমন ডাল (খোসাসিলা)",
+      "category": "dal",
+      "unit": "kg",
+      "image": "🫘"
+    },
+    "sorishar-tel": {
+      "nameBn": "সরিষার তেল",
+      "category": "tel",
+      "unit": "litre",
+      "image": "🫙"
+    },
+    "pam-tel": {
+      "nameBn": "পাম তেল",
+      "category": "tel",
+      "unit": "kg",
+      "image": "🛢️"
+    },
+    "ghani-banga-sorishar-tel": {
+      "nameBn": "ঘানি ভাঙা সরিষার তেল",
+      "category": "tel",
+      "unit": "litre",
+      "image": "🫙"
+    },
+    "alu": {
+      "nameBn": "আলু",
+      "category": "sobji",
+      "unit": "kg",
+      "image": "🥔"
+    },
+    "peyaj": {
+      "nameBn": "পেঁয়াজ",
+      "category": "sobji",
+      "unit": "kg",
+      "image": "🧅"
+    },
+    "kaccha-moric": {
+      "nameBn": "কাঁচামরিচ",
+      "category": "sobji",
+      "unit": "kg",
+      "image": "🌶️"
+    },
+    "begun": {
+      "nameBn": "বেগুন",
+      "category": "sobji",
+      "unit": "kg",
+      "image": "🍆"
+    },
+    "dhenders": {
+      "nameBn": "ঢেঁড়স",
+      "category": "sobji",
+      "unit": "kg",
+      "image": "🟢"
+    },
+    "rui-mach": {
+      "nameBn": "রুই মাছ",
+      "category": "mach",
+      "unit": "kg",
+      "image": "🐟"
+    },
+    "telapiya-mach": {
+      "nameBn": "তেলাপিয়া",
+      "category": "mach",
+      "unit": "kg",
+      "image": "🐟"
+    },
+    "ilish-mach": {
+      "nameBn": "ইলিশ মাছ",
+      "category": "mach",
+      "unit": "kg",
+      "image": "🐠"
+    },
+    "katla-mach": {
+      "nameBn": "কাতলা মাছ",
+      "category": "mach",
+      "unit": "kg",
+      "image": "🐠"
+    },
+    "chingri-mach": {
+      "nameBn": "চিংড়ি মাছ (খোলা)",
+      "category": "mach",
+      "unit": "kg",
+      "image": "🦐"
+    },
+    "murgi-r-mangsho": {
+      "nameBn": "মুরগির মাংস",
+      "category": "mangsho",
+      "unit": "kg",
+      "image": "🍗"
+    },
+    "goru-r-mangsho": {
+      "nameBn": "গরুর মাংস",
+      "category": "mangsho",
+      "unit": "kg",
+      "image": "🥩"
+    },
+    "khasir-mangsho": {
+      "nameBn": "খাসির মাংস",
+      "category": "mangsho",
+      "unit": "kg",
+      "image": "🍖"
+    },
+    "hanser-mangsho": {
+      "nameBn": "হাঁসের মাংস",
+      "category": "mangsho",
+      "unit": "kg",
+      "image": "🦆"
+    },
+    "dim": {
+      "nameBn": "ডিম",
+      "category": "dim-dui",
+      "unit": "dozen",
+      "image": "🥚"
+    },
+    "dui-dudh": {
+      "nameBn": "দুধ",
+      "category": "dim-dui",
+      "unit": "litre",
+      "image": "🥛"
+    },
+    "doi": {
+      "nameBn": "দই",
+      "category": "dim-dui",
+      "unit": "litre",
+      "image": "🥣"
+    },
+    "mokhhan": {
+      "nameBn": "মাখন (১০০ গ্রাম)",
+      "category": "dim-dui",
+      "unit": "piece",
+      "image": "🧈"
+    },
+    "ada": {
+      "nameBn": "আদা",
+      "category": "mosla",
+      "unit": "kg",
+      "image": "🫚"
+    },
+    "roshun": {
+      "nameBn": "রসুন",
+      "category": "mosla",
+      "unit": "kg",
+      "image": "🧄"
+    },
+    "morich-gunda": {
+      "nameBn": "মরিচ গুঁড়া",
+      "category": "mosla",
+      "unit": "kg",
+      "image": "🌶️"
+    },
+    "dhanepata-gunda": {
+      "nameBn": "ধনেপাতা গুঁড়া",
+      "category": "mosla",
+      "unit": "kg",
+      "image": "🍃"
+    }
+  },
+  "ui": {
+    "logo": "🛒",
+    "user": "👤",
+    "signOut": "↩",
+    "search": "🔍",
+    "sortChevron": "▾",
+    "trendUp": "▲",
+    "trendDown": "▼",
+    "trendFlat": "—",
+    "emptyState": "🧺",
+    "notFound": "🔍",
+    "cart": "🛒"
+  },
+  "unit": {
+    "kg": {
+      "long": "প্রতি কেজি",
+      "short": "কেজি",
+      "tickerUnit": "কেজি"
+    },
+    "litre": {
+      "long": "প্রতি লিটার",
+      "short": "লিটার",
+      "tickerUnit": "লিটার"
+    },
+    "dozen": {
+      "long": "প্রতি ডজন",
+      "short": "ডজন",
+      "tickerUnit": "ডজন"
+    },
+    "piece": {
+      "long": "প্রতি পিস",
+      "short": "পিস",
+      "tickerUnit": "পিস"
+    }
+  }
+}

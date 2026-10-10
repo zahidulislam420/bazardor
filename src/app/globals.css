@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Tokens extracted verbatim from the Penpot design file (tokens.json → Bazardor/Color/Light) */
+  --color-primary: #05893e;
+  --color-primary-strong: #047f39;
+  --color-primary-content: #f3fbf4;
+  --color-primary-border: #037333;
+  --color-link-primary: #02642b;
+
+  --color-success: #1a9951;
+  --color-error: #d03739;
+  --color-error-bg: #bd3133;
+  --color-error-content: #fff6f5;
+
+  --color-base-100: #fafcfa;
+  --color-base-200: #f0f5f0;
+  --color-base-300: #e1e8e1;
+  --color-base-content: #1d271f;
+
+  --color-white: #ffffff;
+  --color-neutral-bg: #dadeda;
+  --color-neutral-border: #ccd0cc;
+
+  --font-sans: var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+}
+
+/* Anchor targets must clear the sticky header (68 + 49 + 37 = 154px). */
+[id] {
+  scroll-margin-top: 11rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
