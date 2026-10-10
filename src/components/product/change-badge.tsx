@@ -1,9 +1,14 @@
 import type { ChangeDir } from '@/lib/types'
 import { changeGlyph, formatChangePct } from '@/lib/utils/change'
 
+/**
+ * Consumer-goods convention used by this design: a rise is the unwelcome direction
+ * (red, ▲), a fall is the welcome one (green, ▼) — the opposite of stock markets.
+ * Glyph and colour must stay in agreement, so both read from the same `dir`.
+ */
 const TONE: Record<ChangeDir, string> = {
-  up: 'text-success',
-  down: 'text-error',
+  up: 'text-error',
+  down: 'text-success',
   flat: 'text-base-content',
 }
 

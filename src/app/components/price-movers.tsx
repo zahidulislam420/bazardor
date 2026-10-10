@@ -29,7 +29,7 @@ function Section({
 
 async function Risers() {
   return (
-    <Section title="আজ দাম বেড়েছে" glyph="▲" tone="text-success">
+    <Section title="আজ দাম বেড়েছে" glyph="▲" tone="text-error">
       <ProductGrid products={await getRisers()} />
     </Section>
   )
@@ -37,7 +37,7 @@ async function Risers() {
 
 async function Fallers() {
   return (
-    <Section title="আজ দাম কমেছে" glyph="▼" tone="text-error">
+    <Section title="আজ দাম কমেছে" glyph="▼" tone="text-success">
       <ProductGrid products={await getFallers()} />
     </Section>
   )

@@ -76,15 +76,17 @@ function StatTile({
   label,
   value,
   caption,
+  tone = 'text-base-content',
 }: {
   label: string
   value: string
   caption: string
+  tone?: string
 }) {
   return (
     <div className="rounded-2xl border border-base-300 bg-base-200 px-6 py-4">
       <p className="text-sm font-bold">{label}</p>
-      <p className="mt-1 text-2xl font-bold tabular-nums">{value}</p>
+      <p className={`mt-1 text-2xl font-bold tabular-nums ${tone}`}>{value}</p>
       <p className="mt-1 text-xs text-base-content/70">{caption}</p>
     </div>
   )
@@ -95,20 +97,26 @@ export function PriceSummary({ product }: { product: Product }) {
     <div className="rounded-2xl border border-base-300 bg-white p-5">
       <h2 className="text-lg font-bold">দামের সারসংক্ষেপ</h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        {/* The design codes the extremes so they scan at a glance: the worst price a
+            buyer can meet reads red, the best reads green. Same up=red rule as the
+            change badges, so a rise never looks like a bargain. */}
         <StatTile
           label="সর্বনিম্ন দাম"
           value={formatTaka(minPrice(product))}
           caption="সবচেয়ে কম দামের বাজার"
+          tone="text-success"
         />
         <StatTile
           label="সর্বাধিক দাম"
           value={formatTaka(maxPrice(product))}
           caption="সবচেয়ে বেশি দামের বাজার"
+          tone="text-error"
         />
         <StatTile
           label="গড় দাম"
           value={formatTaka(avgPrice(product))}
           caption={`${unitLabel(product.unit)}-এর হিসাবে`}
+          tone="text-success"
         />
       </div>
     </div>

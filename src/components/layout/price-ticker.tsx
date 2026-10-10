@@ -4,9 +4,10 @@ import type { Product } from '@/lib/types'
 import { tickerPrice } from '@/lib/utils/unit-label'
 import { changeGlyph, formatChangePct } from '@/lib/utils/change'
 
+/** Rise is red, fall is green — see the note in components/product/change-badge.tsx. */
 const TONE = {
-  up: 'text-success',
-  down: 'text-error',
+  up: 'text-error',
+  down: 'text-success',
   flat: 'text-base-content/70',
 } as const
 
